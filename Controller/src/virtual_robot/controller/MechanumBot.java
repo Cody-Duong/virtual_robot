@@ -1,12 +1,9 @@
 package virtual_robot.controller;
 
-import com.qualcomm.robotcore.hardware.ServoImpl;
+import com.qualcomm.robotcore.hardware.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
-import com.qualcomm.robotcore.hardware.DcMotorImpl;
-import com.qualcomm.robotcore.hardware.MotorType;
 import virtual_robot.util.AngleUtils;
 
 /**
@@ -17,7 +14,7 @@ public class MechanumBot extends VirtualBot {
 
     MotorType motorType;
     private DcMotorImpl[] motors = null;
-    //private VirtualRobotController.GyroSensorImpl gyro = null;
+    private GyroSensorImpl gyro = null;
     private BNO055IMUImpl imu = null;
     private VirtualRobotController.ColorSensorImpl colorSensor = null;
     private ServoImpl servo = null;
@@ -46,7 +43,7 @@ public class MechanumBot extends VirtualBot {
                 hardwareMap.get(VirtualRobotController.DistanceSensorImpl.class, "back_distance"),
                 hardwareMap.get(VirtualRobotController.DistanceSensorImpl.class, "right_distance")
         };
-        //gyro = (VirtualRobotController.GyroSensorImpl)hardwareMap.gyroSensor.get("gyro_sensor");
+        gyro = (GyroSensorImpl)hardwareMap.gyroSensor.get("gyro_sensor");
         imu = hardwareMap.get(BNO055IMUImpl.class, "imu");
         colorSensor = (VirtualRobotController.ColorSensorImpl)hardwareMap.colorSensor.get("color_sensor");
         servo = (ServoImpl)hardwareMap.servo.get("back_servo");
@@ -72,7 +69,7 @@ public class MechanumBot extends VirtualBot {
         for (String name: motorNames) hardwareMap.put(name, new DcMotorImpl(motorType));
         String[] distNames = new String[]{"front_distance", "left_distance", "back_distance", "right_distance"};
         for (String name: distNames) hardwareMap.put(name, controller.new DistanceSensorImpl());
-        //hardwareMap.put("gyro_sensor", controller.new GyroSensorImpl());
+        hardwareMap.put("gyro_sensor", new GyroSensorImpl(this,175));
         hardwareMap.put("imu", new BNO055IMUImpl(this, 175));
         hardwareMap.put("color_sensor", controller.new ColorSensorImpl());
         hardwareMap.put("back_servo", new ServoImpl());
@@ -114,7 +111,7 @@ public class MechanumBot extends VirtualBot {
 
         if (headingRadians > Math.PI) headingRadians -= 2.0 * Math.PI;
         else if (headingRadians < -Math.PI) headingRadians += 2.0 * Math.PI;
-        //gyro.updateHeading(headingRadians * 180.0 / Math.PI);
+        gyro.updateHeading(headingRadians * 180.0 / Math.PI);
         imu.updateHeadingRadians(headingRadians);
 
         colorSensor.updateColor(x, y);
@@ -135,7 +132,7 @@ public class MechanumBot extends VirtualBot {
 
     public void powerDownAndReset(){
         for (int i=0; i<4; i++) motors[i].stopAndReset();
-        //gyro.deinit();
+        gyro.deinit();
         imu.close();
     }
 
