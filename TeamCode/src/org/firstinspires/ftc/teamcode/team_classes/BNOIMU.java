@@ -20,10 +20,10 @@ public class BNOIMU {
 
     private Orientation angles;
     //private Acceleration gravity;
-    private Orientation lastAngles = new Orientation();
-    private double globalAngle;
+    private Orientation             lastAngles = new Orientation();
+    private double                  globalAngle;
 
-    public BNOIMU(BNO055IMU IMU) {
+    public BNOIMU(BNO055IMU IMU){
         imu = IMU;
     }
 
@@ -38,7 +38,8 @@ public class BNOIMU {
         //this.imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
     }
 
-    public double getAngle() {
+    public double getAngle()
+    {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -60,7 +61,8 @@ public class BNOIMU {
         return globalAngle;
     }
 
-    private void resetAngle() {
+    private void resetAngle()
+    {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
@@ -71,75 +73,66 @@ public class BNOIMU {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-            }
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            gravity  = imu.getGravity();
+        }
         });
 
         telemetry.addLine()
                 .addData("status", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return imu.getSystemStatus().toShortString();
                     }
                 })
                 .addData("calib", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return imu.getCalibrationStatus().toString();
                     }
                 });
 
         telemetry.addLine()
                 .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return formatAngle(angles.angleUnit, angles.firstAngle);
                     }
                 })
                 .addData("roll", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return formatAngle(angles.angleUnit, angles.secondAngle);
                     }
                 })
                 .addData("pitch", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return formatAngle(angles.angleUnit, angles.thirdAngle);
                     }
                 });
 
         telemetry.addLine()
                 .addData("grvty", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return gravity.toString();
                     }
                 })
                 .addData("mag", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return String.format(Locale.getDefault(), "%.3f",
-                                Math.sqrt(gravity.xAccel * gravity.xAccel
-                                        + gravity.yAccel * gravity.yAccel
-                                        + gravity.zAccel * gravity.zAccel));
+                                Math.sqrt(gravity.xAccel*gravity.xAccel
+                                        + gravity.yAccel*gravity.yAccel
+                                        + gravity.zAccel*gravity.zAccel));
                     }
                 });
     }
-     */
-
+    */
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees) {
+    String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
