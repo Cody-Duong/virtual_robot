@@ -112,7 +112,7 @@ public class VirtualRobotController {
     public void initialize() {
         OpMode.setVirtualRobotController(this);
         setupCbxOpModes();
-        cbxConfig.setItems(FXCollections.observableArrayList("Two Wheel Bot", "Mechanum Bot", "XDrive Bot"));
+        cbxConfig.setItems(FXCollections.observableArrayList("Mechanum Bot", "Two Wheel Bot", "XDrive Bot"));
         cbxConfig.setValue(cbxConfig.getItems().get(0));
         //fieldWidth = fieldPane.getPrefWidth();
         fieldWidth = Config.FIELD_WIDTH;

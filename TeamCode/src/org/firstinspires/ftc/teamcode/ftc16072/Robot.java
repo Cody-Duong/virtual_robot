@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+/*
 public class Robot {
     private BNO055IMU imu;
     private MecanumDrive mecanumDrive = new MecanumDrive();
@@ -24,7 +25,7 @@ public class Robot {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         return -angles.firstAngle;   // Not sure why this is negative, could be the simulator
-
+*/
         /*
         angles.firstAngle is the heading, measured COUNTER-CLOCKWISE, from the orientation the bot was in when the
         op mode was started (by default, straight upward). In the driveFieldRelative method, the X axis is the robot's
@@ -32,7 +33,7 @@ public class Robot {
         driveMechanum method, the strafe direction (robot-right) is 90 degrees CLOCKWISE from the forward direction.
         It is these choices of coordinate systems that necessitate using the negative of angles.firstAngle.
          */
-
+/*
     }
 
     double degreeFromRadians(double theta) {
@@ -57,3 +58,4 @@ public class Robot {
         mecanumDrive.driveMecanum(forward, strafe, rotate);
     }
 }
+*/

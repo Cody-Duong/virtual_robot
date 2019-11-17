@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.ftc16072;
 
+/*
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -24,3 +26,4 @@ public class MecanumFieldRelativeOpMode extends OpMode {
         robot.driveFieldRelative(telemetry, forward, strafe, rotate);
     }
 }
+ */

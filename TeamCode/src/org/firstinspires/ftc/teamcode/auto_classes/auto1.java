@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto_classes;
 
+/*
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -138,3 +139,4 @@ public class auto1 extends OpMode {
         Robot.DCG.setPower(new double[]{0,0,0,0});
     }
 }
+ */
