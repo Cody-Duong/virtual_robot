@@ -7,11 +7,11 @@ import org.firstinspires.ftc.teamcode.general_classes.Position2DAngle;
 import org.firstinspires.ftc.teamcode.team_classes.Robot;
 
 
-@TeleOp(name="test", group="test") //fix this
+@TeleOp(name="Mecanum", group="9108") //fix this
 public class teleOpMecanum extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
-    private Robot Robot;
+    private Robot Robot = new Robot();
 
     //Initialized by: Initialization Button (i think)
     public void init() {

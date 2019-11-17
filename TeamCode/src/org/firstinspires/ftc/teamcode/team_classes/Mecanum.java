@@ -22,10 +22,10 @@ public class Mecanum extends DcMotorGroup {
 
     //METHOD 1: self-explanatory
     public void initialize(HardwareMap Hmap, Telemetry Tm) {
-        this.DcMotors[0] = Hmap.get(DcMotor.class, "right_drive_front");
-        this.DcMotors[1] = Hmap.get(DcMotor.class, "left_drive_front");
-        this.DcMotors[2] = Hmap.get(DcMotor.class, "left_drive_back");
-        this.DcMotors[3] = Hmap.get(DcMotor.class, "right_drive_back");
+        this.DcMotors[0] = Hmap.get(DcMotor.class, "front_right_motor");
+        this.DcMotors[1] = Hmap.get(DcMotor.class, "front_left_motor");
+        this.DcMotors[2] = Hmap.get(DcMotor.class, "back_left_motor");
+        this.DcMotors[3] = Hmap.get(DcMotor.class, "back_right_motor");
         this.DcMotors[0].setDirection(DcMotor.Direction.REVERSE);
         this.DcMotors[1].setDirection(DcMotor.Direction.FORWARD);
         this.DcMotors[2].setDirection(DcMotor.Direction.FORWARD);
