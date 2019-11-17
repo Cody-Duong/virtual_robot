@@ -33,8 +33,8 @@ public class teleOpMecanum extends OpMode {
     @Override
     public void loop() {
         double drivey = gamepad1.left_stick_y;
-        double drivex = gamepad1.left_stick_x;
-        double turn = -gamepad1.right_stick_x;
+        double drivex = -gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
         if (Math.abs((double)drivey) < .05) {
             drivey = 0;
         }
@@ -45,7 +45,8 @@ public class teleOpMecanum extends OpMode {
             turn = 0;
         }
         Position2DAngle relativeValues;
-        relativeValues = Robot.DCGm.relativeValues(new Position2DAngle(drivex,drivey,turn), Math.toDegrees(Robot.IMU.getHeadingRadians()));
+        relativeValues = Robot.DCGm.relativeValues(new Position2DAngle(drivex,drivey,turn), Robot.Gyro.Sensor.getHeading());
+        telemetry.addData("Heading",Robot.Gyro.Sensor.getHeading());
         Robot.DCGm.driveToPositionAngle(relativeValues, true);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.update();

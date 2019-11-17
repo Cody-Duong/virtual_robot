@@ -36,6 +36,7 @@ public class BNOIMU {
         parameters.loggingEnabled = false;
         this.imu.initialize(parameters);
         //this.imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        this.resetAngle();
     }
 
     public double getAngle()
@@ -127,7 +128,7 @@ public class BNOIMU {
                     }
                 });
     }
-    */
+     */
 
     public double getHeadingRadians() {
         Orientation angles;

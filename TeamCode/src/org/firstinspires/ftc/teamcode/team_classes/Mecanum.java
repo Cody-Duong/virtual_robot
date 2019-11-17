@@ -116,6 +116,7 @@ public class Mecanum extends DcMotorGroup {
     //FUNCTION 2: lots of trig going on, so have fun trying to figure it out
     public Position2DAngle relativeValues(Position2DAngle PosAngle, double THETA_robot) {
         double THETA_triangle;
+        double THETA_subtract = THETA_robot%360;
         if (PosAngle.X==0 && PosAngle.Y!=0) {
             if (PosAngle.Y > 0) {
                 THETA_triangle = 90;
@@ -133,7 +134,7 @@ public class Mecanum extends DcMotorGroup {
         } else {
             THETA_triangle = Math.toDegrees(Math.atan2(PosAngle.Y,PosAngle.X));
         }
-        double THETA_relative = (THETA_triangle - THETA_robot);
+        double THETA_relative = (-THETA_subtract + THETA_triangle);
         double L_hypotnuse = PosAngle.getMagnitude();
         double X_New = L_hypotnuse * Math.cos(Math.toRadians(THETA_relative));
         double Y_New = L_hypotnuse * Math.sin(Math.toRadians(THETA_relative));
