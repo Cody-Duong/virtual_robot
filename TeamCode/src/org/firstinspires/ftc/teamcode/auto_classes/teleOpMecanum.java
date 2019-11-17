@@ -45,7 +45,7 @@ public class teleOpMecanum extends OpMode {
             turn = 0;
         }
         Position2DAngle relativeValues;
-        relativeValues = Robot.DCGm.relativeValues(new Position2DAngle(drivex,drivey,turn), Robot.Gyro.Sensor.getHeading());
+        relativeValues = Robot.DCGm.relativeValues(new Position2DAngle(drivex,drivey,turn), Math.toDegrees(Robot.IMU.getHeadingRadians()));
         telemetry.addData("Heading",Robot.Gyro.Sensor.getHeading());
         Robot.DCGm.driveToPositionAngle(relativeValues, true);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
