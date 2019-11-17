@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.*;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Example OpMode. Demonstrates use of gyro, color sensor, encoders, and telemetry.
- *
  */
 @TeleOp(name = "two wheel demo linear", group = "TwoWheel")
 public class TwoWheelDemoLinear extends LinearOpMode {
@@ -25,25 +24,25 @@ public class TwoWheelDemoLinear extends LinearOpMode {
         DistanceSensor backDistance = hardwareMap.get(DistanceSensor.class, "back_distance");
         DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
 
-        telemetry.addData("Press Start to Continue","");
+        telemetry.addData("Press Start to Continue", "");
         telemetry.update();
 
         waitForStart();
 
-        while (opModeIsActive()){
-            if (gamepad1.a){
-                telemetry.addData("a pressed","");
+        while (opModeIsActive()) {
+            if (gamepad1.a) {
+                telemetry.addData("a pressed", "");
                 left.setPower(-.5);
                 right.setPower(-.5);
             } else if (gamepad1.y) {
                 telemetry.addData("y pressed", "");
                 left.setPower(0.5);
                 right.setPower(0.5);
-            } else if (gamepad1.b){
+            } else if (gamepad1.b) {
                 telemetry.addData("b pressed", "");
                 left.setPower(0.5);
                 right.setPower(-0.5);
-            } else if (gamepad1.x){
+            } else if (gamepad1.x) {
                 telemetry.addData("x pressed", "");
                 left.setPower(-0.5);
                 right.setPower(0.5);
@@ -51,16 +50,16 @@ public class TwoWheelDemoLinear extends LinearOpMode {
                 left.setPower(0);
                 right.setPower(0);
             }
-            backServo.setPosition(0.5 - 0.5* gamepad1.left_stick_y);
+            backServo.setPosition(0.5 - 0.5 * gamepad1.left_stick_y);
             telemetry.addData("Press", "Y-fwd, A-rev, B-Rt, X-Lt");
-            telemetry.addData("Left Gamepad stick controls back servo","");
-            telemetry.addData("Color","R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());
-            telemetry.addData("Heading"," %.1f", gyro.getHeading());
-            telemetry.addData("Encoders","Left %d  Right %d", left.getCurrentPosition(), right.getCurrentPosition());
+            telemetry.addData("Left Gamepad stick controls back servo", "");
+            telemetry.addData("Color", "R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());
+            telemetry.addData("Heading", " %.1f", gyro.getHeading());
+            telemetry.addData("Encoders", "Left %d  Right %d", left.getCurrentPosition(), right.getCurrentPosition());
             telemetry.addData("Distance", " Fr %.1f  Lt %.1f  Rt %.1f  Bk %.1f  ",
                     frontDistance.getDistance(DistanceUnit.CM), leftDistance.getDistance(DistanceUnit.CM),
                     rightDistance.getDistance(DistanceUnit.CM), backDistance.getDistance(DistanceUnit.CM)
-                    );
+            );
             telemetry.update();
         }
         left.setPower(0);

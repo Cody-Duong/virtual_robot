@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.pathfinding;
+
 import org.firstinspires.ftc.teamcode.general_classes.Position2D;
 
 /*PUBLIC NODE
