@@ -23,7 +23,7 @@ public class MecanumFieldRelativeOpMode extends OpMode {
         double rotate = gamepad1.right_stick_x;
 
         // mecanumDrive.driveMecanum(forward, strafe, rotate);
-        robot.driveFieldRelative(telemetry, forward, strafe, rotate);
+        robot.nav.driveFieldRelative(forward, strafe, rotate);
     }
 }
  */
