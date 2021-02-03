@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.auto_classes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.general_classes.Position2DAngle;
+import org.firstinspires.ftc.teamcode.team_classes.Gyro;
+import org.firstinspires.ftc.teamcode.team_classes.Mecanum;
 import org.firstinspires.ftc.teamcode.team_classes.Robot;
 
 
@@ -32,6 +35,7 @@ public class teleOpMecanum extends OpMode {
     //Initialized by: After Start, Before Stop / loops
     @Override
     public void loop() {
+        //DRIVING
         double drivey = gamepad1.left_stick_y;
         double drivex = -gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
@@ -44,12 +48,19 @@ public class teleOpMecanum extends OpMode {
         if (Math.abs((double)turn) < .05) {
             turn = 0;
         }
-        double AverageHeading = (Robot.Gyro.Sensor.getHeading() + Math.toDegrees(Robot.IMU.getHeadingRadians()))/2;
+        double AverageHeading = (/*Robot.Gyro.Sensor.getHeading() + */Math.toDegrees(Robot.IMU.getHeadingRadians()))/*/2*/;
         Position2DAngle relativeValues = Robot.DCGm.relativeValues(new Position2DAngle(drivex,drivey,turn), AverageHeading);
-        telemetry.addData("Heading",Robot.Gyro.Sensor.getHeading());
         Robot.DCGm.driveToPositionAngle(relativeValues, true);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.update();
+
+        //SERVOS
+        if (gamepad1.a) {
+            Robot.SG.Servos[0].setPosition(0);
+        }
+        if (gamepad1.y) {
+            Robot.SG.Servos[0].setPosition(.9);
+        }
     }
 
     //Initialized by: Stop / runs once

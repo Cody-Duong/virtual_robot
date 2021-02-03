@@ -144,9 +144,9 @@ public class VirtualRobotController {
             }
             gamePadHelper = new VirtualGamePadHelper();
         } else {
-            checkBoxGamePad1.setDisable(true);
+            checkBoxGamePad1.setDisable(false);
             checkBoxGamePad1.setStyle("-fx-opacity: 1");
-            checkBoxGamePad2.setDisable(true);
+            checkBoxGamePad2.setDisable(false);
             checkBoxGamePad2.setStyle("-fx-opacity: 1");
             gamePadHelper = new RealGamePadHelper();
         }
@@ -378,7 +378,7 @@ public class VirtualRobotController {
                 //resetGamePad();
                 initializeTelemetryTextArea();
                 cbxConfig.setDisable(false);
-                if (Config.USE_VIRTUAL_GAMEPAD) virtualGamePadController.resetGamePad();
+                //if (Config.USE_VIRTUAL_GAMEPAD) virtualGamePadController.resetGamePad();
             }
         });
 

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.general_classes.Position2DAngle;
 
 public class Mecanum extends DcMotorGroup {
     //Constant Properties
-    private static final double     COUNTS_PER_MOTOR_REV    = 0 ;       // 5202 Series Yellow Jacket Planetary Gear Motor
+    private static final double     COUNTS_PER_MOTOR_REV    = 100 ;       // 5202 Series Yellow Jacket Planetary Gear Motor
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_MM       = 100;      // goBilda metric wheels are 100mm
     private static final double     WHEEL_DIAMETER_INCHES   = WHEEL_DIAMETER_MM/25.4;
@@ -17,7 +17,7 @@ public class Mecanum extends DcMotorGroup {
 
     //Constructor
     public Mecanum() {
-        super(new DcMotor[]{null,null,null,null});
+        super(new DcMotor[4]);
     }
 
     //METHOD 1: self-explanatory
@@ -39,6 +39,10 @@ public class Mecanum extends DcMotorGroup {
         this.DcMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.DcMotors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.DcMotors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //this.DcMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //this.DcMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //this.DcMotors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //this.DcMotors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Tm.addData("DcMotorGroup Initialization","Complete");
         Tm.update();
     }
@@ -64,23 +68,57 @@ public class Mecanum extends DcMotorGroup {
         double smallest = Math.min((double)Math.min((double)V1,(double)V2),(double)Math.min((double)V3,(double)V4));
         double divisor = Math.max((double)Math.abs((double)largest), (double)Math.abs((double)smallest));
 
+        double V1n = V1;
+        double V2n = V2;
+        double V3n = V3;
+        double V4n = V4;
+
         if (V1!=0) {
-            V1 = (V1/divisor);
-            V2 = (V2/divisor);
-            V3 = (V3/divisor);
-            V4 = (V4/divisor);
+            V1n = (V1/divisor);
+            V2n = (V2/divisor);
+            V3n = (V3/divisor);
+            V4n = (V4/divisor);
         }
+        double EncoderMax = inchToEncoder(Math.hypot(PositionAngle.X,PositionAngle.Y));
 
-        this.setPower(new double[]{V1,V2,V3,V4});
-        /*
-        double EncoderMax1 = inchToEncoder(0);
-
-        if (teleOp == false) {
+        if (!teleOp) {
             //WHILE ENCODER LOOP HERE
-        } else if (teleOp == true) {
-
+            if (divisor == Math.abs(V1)) {
+                this.DcMotors[0].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                while (this.DcMotors[0].getCurrentPosition() < EncoderMax){
+                    double ratio = this.DcMotors[0].getCurrentPosition()/EncoderMax;
+                    double m = -Math.pow(ratio,2)+1; //m = multipler
+                    this.setPower(new double[]{m*V1n,m*V2n,m*V3n,m*V4n});
+                }
+                this.setPower(new double[]{0,0,0,0});
+            } else if (divisor == Math.abs(V2)) {
+                this.DcMotors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                while (this.DcMotors[1].getCurrentPosition() < EncoderMax){
+                    double ratio = this.DcMotors[1].getCurrentPosition()/EncoderMax;
+                    double m = -Math.pow(ratio,2)+1; //m = multipler
+                    this.setPower(new double[]{m*V1n,m*V2n,m*V3n,m*V4n});
+                }
+                this.setPower(new double[]{0,0,0,0});
+            } else if (divisor == Math.abs(V3)) {
+                this.DcMotors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                while (this.DcMotors[2].getCurrentPosition() < EncoderMax){
+                    double ratio = this.DcMotors[2].getCurrentPosition()/EncoderMax;
+                    double m = -Math.pow(ratio,2)+1; //m = multipler
+                    this.setPower(new double[]{m*V1n,m*V2n,m*V3n,m*V4n});
+                }
+                this.setPower(new double[]{0,0,0,0});
+            } else if (divisor == Math.abs(V4)) {
+                this.DcMotors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                while (this.DcMotors[3].getCurrentPosition() < EncoderMax){
+                    double ratio = this.DcMotors[3].getCurrentPosition()/EncoderMax;
+                    double m = -Math.pow(ratio,2)+1; //m = multipler
+                    this.setPower(new double[]{m*V1n,m*V2n,m*V3n,m*V4n});
+                }
+                this.setPower(new double[]{0,0,0,0});
+            }
+        } else if (teleOp) {
+            this.setPower(new double[]{V1n,V2n,V3n,V4n});
         }
-         */
     }
 
     //IF undeclared teleop, assumes auto drive method
@@ -134,7 +172,7 @@ public class Mecanum extends DcMotorGroup {
         } else {
             THETA_triangle = Math.toDegrees(Math.atan2(PosAngle.Y,PosAngle.X));
         }
-        double THETA_relative = (-THETA_subtract + THETA_triangle);
+        double THETA_relative = (THETA_triangle - THETA_subtract);
         double L_hypotnuse = PosAngle.getMagnitude();
         double X_New = L_hypotnuse * Math.cos(Math.toRadians(THETA_relative));
         double Y_New = L_hypotnuse * Math.sin(Math.toRadians(THETA_relative));
